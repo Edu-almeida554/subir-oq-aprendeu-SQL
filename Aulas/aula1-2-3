@@ -1,0 +1,128 @@
+# Tipos de Comandos SQL
+
+## DDL — Linguagem de Definição de Dados
+
+Usada para definir ou modificar a **estrutura** do banco de dados (o "esqueleto" do banco). Permite gerenciar a planta estrutural (blueprint) através de três ações principais:
+
+| Comando | Ação | Objeto Afetado |
+|---------|------|-----------------|
+| `CREATE` | Construir novo | Banco de Dados, Tabela, Schema |
+| `ALTER` | Modificar existente | Colunas, Tipos de Dados |
+| `DROP` | Excluir permanentemente | Banco de Dados, Tabela, Schema |
+
+### CREATE — Criando objetos
+
+Cria bancos de dados ou tabelas do zero. Ao criar uma tabela, é preciso definir as colunas e seus tipos de dados.
+
+```sql
+CREATE DATABASE Sales;
+
+CREATE TABLE Products (
+    ProductID INT,
+    ProductName VARCHAR(100),
+    Price DECIMAL
+);
+```
+
+### ALTER — Modificando objetos
+
+Atualiza a estrutura de uma tabela existente, sem excluí-la.
+
+```sql
+-- Adicionar uma coluna
+ALTER TABLE Products
+ADD Category VARCHAR(50);
+
+-- Remover uma coluna
+ALTER TABLE Products
+DROP COLUMN Price;
+```
+
+### DROP — Excluindo objetos
+
+Comando **destrutivo**: remove toda a estrutura e todos os registros armazenados nela.
+
+```sql
+DROP TABLE Products;
+```
+
+---
+
+## DQL — Linguagem de Consulta de Dados
+
+Usada para **recuperar dados** do banco de dados.
+
+- `SELECT` – comando principal para buscar dados.
+
+### Filtragem e Ordenação
+
+- `WHERE` – filtra registros com condições específicas.
+- `ORDER BY` – ordena resultados em ordem ascendente ou descendente.
+
+### Ferramentas Avançadas de Seleção
+
+- `DISTINCT` – remove duplicatas.
+- `TOP` / `LIMIT` – especifica o número de registros retornados.
+
+### Aliases (AS)
+
+Usados para dar nome temporário a tabelas ou colunas, tornando os resultados mais legíveis.
+
+### Ordem Lógica de Avaliação
+
+O SQL não processa as cláusulas na ordem em que são escritas. A execução lógica padrão é:
+
+1. `FROM`
+2. `WHERE`
+3. `SELECT`
+4. `ORDER BY`
+
+---
+
+## DML — Linguagem de Manipulação de Dados
+
+Usada para gerenciar os **dados dentro das tabelas**. Enquanto a DDL define o "recipiente", a DML permite gerenciar o conteúdo interno.
+
+| Comando | Ação | Efeito nos Dados |
+|---------|------|-------------------|
+| `INSERT` | Adicionar | Novas linhas são criadas |
+| `UPDATE` | Editar | Valores existentes são alterados |
+| `DELETE` | Remover | Linhas selecionadas são apagadas |
+
+### INSERT — Adicionando dados
+
+Dois métodos principais:
+
+**Método 1 — Entrada manual (VALUES):**
+```sql
+INSERT INTO Products (ProductID, ProductName, Price)
+VALUES (1, 'Laptop', 1200.00);
+```
+
+**Método 2 — INSERT usando SELECT** (insere dados de uma tabela de origem em uma tabela de destino):
+```sql
+INSERT INTO TargetTable
+SELECT * FROM SourceTable
+WHERE condition;
+```
+
+### UPDATE — Modificando dados
+
+Edita registros existentes. É essencial usar `WHERE`, caso contrário todas as linhas da tabela serão atualizadas.
+
+```sql
+UPDATE table_name
+SET column1 = value1, column2 = value2
+WHERE <condition>;
+```
+
+> **Regra:** sempre use `WHERE` para evitar atualizações em massa não intencionais.
+
+### DELETE — Removendo dados
+
+Remove registros que não são mais necessários. Assim como no UPDATE, usa-se `WHERE` para filtrar linhas específicas.
+
+```sql
+DELETE FROM table_name
+WHERE <condition>;
+```
